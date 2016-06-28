@@ -115,7 +115,7 @@ func GA(population *Generation, popSize, count int) (*Individual, bool) {
 	return (*population)[0], count == 0
 }
 
-func readIndividual() *Individual {
+func readIndividual() (*Individual, bool) {
 	fmt.Printf("Keep giving integers until you are out ;). Press Ctrl-D to finish\n")
 	nums := make(Individual, 0)
 	var d int
@@ -130,7 +130,7 @@ func readIndividual() *Individual {
 
 		nums = append(nums, d)
 	}
-	return &nums
+	return &nums, len(nums) != 0
 }
 
 func main() {
@@ -143,8 +143,13 @@ func main() {
 	flag.Parse()
 
 	/* get the initial population ready  (ss@06/28/2016) */
+	var valid bool
 	pop := make(Generation, 1)
-	pop[0] = readIndividual()
+	pop[0], valid = readIndividual()
+	if !valid {
+		log.Fatal("The input is invalid, bbye.\n")
+		return
+	}
 	heap.Init(&pop)
 
 	/* we have a winner?  (ss@06/28/2016) */
