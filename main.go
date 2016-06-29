@@ -46,6 +46,8 @@ func main() {
 	heap.Init(&pop)
 
 	/* we have a winner?  (ss@06/28/2016) */
+	start := time.Now()
 	winner, increaseGenCount := GA(&pop, popSize, genCount)
 	fmt.Printf("The result is: %v; Need to increase generation count = %v\n", *winner, increaseGenCount)
+	fmt.Printf("It took %s to complete.", time.Since(start))
 }
